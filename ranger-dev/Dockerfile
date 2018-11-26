@@ -38,4 +38,7 @@ WORKDIR /
 RUN git clone https://github.com/apache/incubator-ranger
 
 WORKDIR /incubator-ranger/
-RUN mvn dependency:resolve
+# RUN mvn dependency:resolve
+
+# Build (step 1.2 of Ranger guide)
+RUN mvn clean compile package install assembly:assembly
