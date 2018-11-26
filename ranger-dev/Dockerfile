@@ -34,8 +34,8 @@ RUN chmod 600 /root/.ssh/authorized_keys
 RUN sed -ri 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
 
 # Clone Ranger 
-WORKDIR /tmp
+WORKDIR /
 RUN git clone https://github.com/apache/incubator-ranger
 
-WORKDIR /tmp/incubator-ranger/
+WORKDIR /incubator-ranger/
 RUN mvn dependency:resolve
