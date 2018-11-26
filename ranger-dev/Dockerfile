@@ -11,7 +11,7 @@ RUN yum -y install vim wget rpm-build which tar openssh-server openssh-clients g
 ENV HOME /root
 
 #Install JAVA 
-RUN wget --no-check-certificate --no-cookies --header "Cookie:oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u191-b12/jdk-8u191-linux-x64.rpm -O jdk-8u191-linux-x64.rpm
+RUN wget --no-check-certificate --no-cookies --header "Cookie:oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm
 RUN rpm -Uvh jdk-8u191-linux-x64.rpm
 ENV JAVA_HOME /usr/java/default/
 
