@@ -11,18 +11,18 @@ RUN yum -y install vim wget rpm-build which tar openssh-server openssh-clients g
 ENV HOME /root
 
 #Install JAVA 
-RUN wget --no-check-certificate --no-cookies --header "Cookie:oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.rpm -O jdk-8u60-linux-x64.rpm
-RUN rpm -Uvh jdk-8u60-linux-x64.rpm
+RUN wget --no-check-certificate --no-cookies --header "Cookie:oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u191-b12/jdk-8u191-linux-x64.rpm -O jdk-8u191-linux-x64.rpm
+RUN rpm -Uvh jdk-8u191-linux-x64.rpm
 ENV JAVA_HOME /usr/java/default/
 
 #Install Maven 3.3.0+
 RUN mkdir -p /opt/maven
 WORKDIR /opt/maven
-RUN wget http://download.nextag.com/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
-RUN tar -xvzf /opt/maven/apache-maven-3.3.9-bin.tar.gz
-RUN rm -rf /opt/maven/apache-maven-3.3.9-bin.tar.gz
+RUN wget http://apache.crihan.fr/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz
+RUN tar -xvzf /opt/maven/apache-maven-3.6.0-bin.tar.gz
+RUN rm -rf /opt/maven/apache-maven-3.6.0-bin.tar.gz
 
-ENV M2_HOME /opt/maven/apache-maven-3.3.9
+ENV M2_HOME /opt/maven/apache-maven-3.6.0
 ENV MAVEN_OPTS -Xmx2048m 
 ENV PATH $PATH:$JAVA_HOME/bin:$M2_HOME/bin
 
