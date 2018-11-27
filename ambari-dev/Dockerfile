@@ -16,27 +16,33 @@ RUN echo root:changeme | chpasswd
 
 ## Install some basic utilities that aren't in the default image
 RUN yum clean all -y && yum update -y
-RUN yum -y install vim wget rpm-build sudo which telnet tar openssh-server openssh-clients ntp git python-setuptools python-devel httpd
+RUN yum -y install vim wget sudo rpm-build
+RUN yum -y install which telnet tar openssh-server openssh-clients
+RUN yum -y install ntp git python-setuptools python-devel httpd
 # phantomjs dependency
 RUN yum -y install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
 RUN rpm -e --nodeps --justdb glibc-common
 RUN yum -y install glibc-common
+# Install Python 2.7
+RUN yum -y install centos-release-scl
+RUN yum -y install python27
+RUN scl enable python27 bash
 
 ENV HOME /root
 
 #Install JAVA
-RUN wget --no-check-certificate --no-cookies --header "Cookie:oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.rpm -O jdk-8u60-linux-x64.rpm
-RUN rpm -ivh jdk-8u60-linux-x64.rpm
+RUN wget --no-check-certificate --no-cookies --header "Cookie:oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm
+RUN rpm -ivh jdk-8u191-linux-x64.rpm
 ENV JAVA_HOME /usr/java/default/
 
 #Install Maven
 RUN mkdir -p /opt/maven
 WORKDIR /opt/maven
-RUN wget http://apache.cs.utah.edu/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
-RUN tar -xvzf /opt/maven/apache-maven-3.0.5-bin.tar.gz
-RUN rm -rf /opt/maven/apache-maven-3.0.5-bin.tar.gz
+RUN wget http://apache.crihan.fr/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz
+RUN tar -xvzf /opt/maven/apache-maven-3.6.0-bin.tar.gz
+RUN rm -rf /opt/maven/apache-maven-3.6.0-bin.tar.gz
 
-ENV M2_HOME /opt/maven/apache-maven-3.0.5
+ENV M2_HOME /opt/maven/apache-maven-3.6.0
 ENV MAVEN_OPTS -Xmx2048m -XX:MaxPermSize=256m
 ENV PATH $PATH:$JAVA_HOME/bin:$M2_HOME/bin
 
@@ -52,16 +58,16 @@ RUN git config --global url."https://".insteadOf git://
 # Install python, nodejs and npm
 RUN yum -y install http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 RUN yum -y install nodejs npm --enablerepo=epel
-RUN npm install -g npm@2.1.11
-RUN npm install -g brunch@1.7.20
+RUN npm install -g npm#@2.1.11
+RUN npm install -g brunch#@1.7.20
 RUN npm set registry https://registry.npmjs.org/
 ENV PHANTOMJS_CDNURL http://cnpmjs.org/downloads
 
 # Once run some mvn commands to cache .m2/repository
-WORKDIR /tmp
+WORKDIR /
 RUN git clone https://github.com/apache/ambari.git
-WORKDIR /tmp/ambari
+WORKDIR /ambari
 RUN npm set registry https://registry.npmjs.org/
 
 
-ADD scripts/build.sh /tmp/build.sh
+ADD scripts/build.sh /build.sh
