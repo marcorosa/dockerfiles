@@ -6,6 +6,13 @@ RUN echo root:changeme | chpasswd
 
 # Build packages
 RUN yum clean all -y && yum update -y
+# Install SCL
+RUN yum -y install centos-release-scl
+# Install Python 2.7
+RUN yum -y install python27
+# Use Python 2.7 instead of 2.6
+RUN scl enable python27 bash
+# Other dependencies
 RUN yum -y install vim wget rpm-build which tar openssh-server openssh-clients git python-setuptools python-devel glibc-common
 
 ENV HOME /root
