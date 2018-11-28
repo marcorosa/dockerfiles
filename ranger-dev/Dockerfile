@@ -15,6 +15,7 @@ RUN scl enable python27 bash
 # Other dependencies
 RUN yum -y install vim wget rpm-build which tar openssh-server openssh-clients git python-setuptools python-devel glibc-common
 RUN yum -y install gcc  # for credValidator
+RUN yum -y install bc  # for admin service
 
 ENV HOME /root
 
