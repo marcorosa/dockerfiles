@@ -14,6 +14,7 @@ RUN yum -y install python27
 RUN scl enable python27 bash
 # Other dependencies
 RUN yum -y install vim wget rpm-build which tar openssh-server openssh-clients git python-setuptools python-devel glibc-common
+RUN yum -y install gcc  # for credValidator
 
 ENV HOME /root
 
@@ -45,7 +46,7 @@ WORKDIR /
 RUN git clone https://github.com/apache/incubator-ranger
 
 WORKDIR /incubator-ranger/
-# RUN mvn dependency:resolve
+RUN mvn dependency:resolve
 
 # Build (step 1.2 of Ranger guide)
 RUN mvn clean compile package install assembly:assembly
